@@ -1,35 +1,55 @@
+"""
+입력 :
+수식의 길이 N(홀수)
+길이가 N인 수식 (0~9 정수와 +, -, *)
+
+조건 :
+연산자 우선순위는 모두 동일
+
+결과 :
+괄호를 0~n개 추가해 만들 수 있는 식의 결과의 최댓값 구하기
+1. 괄호 안에 연산자가 하나만 들어가도록
+2. 중첩된 괄호 사용 불가
+
+출력 :
+최댓값(2^31보다 작고 -2^31보다 큼)
+
+아이디어 :
+노드 수가 간선 수보다 많은 그래프, DFS - 재귀함수 활용
+짝수 index에는 숫자(0, 2, 4..)
+홀수 index에는 문자(1, 3, 5..)
+"""
 import sys
 input = sys.stdin.readline
 
-# 연산 처리
-def cal(a, b, c):
-  a = int(a)
-  b = int(b)
-  if c == '+':
-    return a + b
-  if c == '-':
-    return a - b
-  if c == '*':
-    return a * b
+n = int(input())
+exp = list(input().rstrip())
 
-def dfs(idx, s): # 인덱스, 현재 값
-  global ans
-  if idx == N - 1: # 더 이상 계산할 수 없는 경우 max값 비교
-    ans = max(ans, s)
-    return
-  if idx + 2 < N: # 평범한 계산
-    s1 = cal(s, data[idx+2], data[idx+1])
-    dfs(idx + 2, s1)
-  if idx + 4 < N: # 괄호 치기
-    s2 = cal(s, cal(data[idx+2], data[idx+4], data[idx+3]), data[idx+1])
-    dfs(idx + 4, s2)
+max_value = -2**31
 
-N = int(input())
-data = list(input().rstrip())
-ans = -(sys.maxsize)
+def calculate(a, b, operator):
+    a = int(a)
+    b = int(b)
 
-# 탐색 시작
-dfs(0, int(data[0]))
+    if operator == '+':
+        return a + b
+    elif operator == '-':
+        return a - b
+    elif operator == '*':
+        return a * b
 
-# 정답 출력
-print(ans)
+def dfs(i, current_value):
+    global max_value
+
+    if i == n-1:
+        max_value = max(max_value, current_value)
+        return
+    if i + 2 < n:
+        new_value1 = calculate(current_value, exp[i+2], exp[i+1])
+        dfs(i + 2, new_value1)
+    if i + 4 < n:
+        new_value2 = calculate(current_value, calculate(exp[i+2], exp[i+4], exp[i+3]), exp[i+1])
+        dfs(i + 4, new_value2)
+
+dfs(0, int(exp[0]))
+print(max_value)
