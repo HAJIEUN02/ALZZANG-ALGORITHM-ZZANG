@@ -1,2 +1,8 @@
-# algorithm
-This is an auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+> # ALZZANG
+> 알고리즘 짱이 될테야!
+
+<br>
+
+백준, 프로그래머스의 문제를 풉니다.
+
+SQL, 알고리즘 문제를 모두 풉니다.
